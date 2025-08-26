@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Responsive Mega Menu</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+/* Overlay */
+.mega-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.9);
+  color: #fff;
+  z-index: 1050;
+  transform: translateY(-100%);
+  transition: transform 0.4s ease-in-out;
+  overflow-y: auto;
+}
+.mega-overlay.show { transform: translateY(0); }
+.mega-overlay .close-btn {
+  font-size: 2rem;
+  border: none;
+  background: none;
+  color: #fff;
+}
+
+/* Parent links */
+.parent-list a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  padding: .75rem 1rem;
+  text-decoration: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  background: transparent;
+}
+.parent-list a.active { background: rgba(255,255,255,0.1); font-weight: 600; }
+.parent-list a:hover { 
+    text-decoration: none !important;
+}
+
+/* Remove underline from arrows */
+.parent-list a:hover .fa { text-decoration: none; }
+
+/* Arrow icon */
+.parent-list a .fa {
+  color: #fff;
+  transition: transform 0.3s ease;
+  text-decoration: none !important;
+}
+.parent-list a.mobile-active .fa-angle-down {
+  transform: rotate(180deg);
+}
+
+/* Child links */
+.child-links a {
+  display: block;
+  padding: .25rem 2rem;
+  color: #bbb;
+  text-decoration: none;
+}
+.child-links a:hover { color: #fff; text-decoration: underline; }
+
+/* Divider */
+.parent-list { border-right: 1px solid rgba(255,255,255,0.2); }
+
+/* Desktop: 4 equal columns filling full width */
+@media(min-width:768px){
+  .mega-row { display:flex; }
+  .parent-list { width: 25%; }
+  .child-links-wrapper { width: 100%; display:flex; flex-wrap: wrap; padding-left:1rem; }
+  .child-links .col { width: 25%; padding-right:1rem; box-sizing:border-box; }
+  .child-links a { padding:.25rem 0; display:block; }
+  .mobile-child { display:none !important; }
+  .parent-list a .fa-angle-down { display:none; }
+  .parent-list a .fa-angle-right { display:inline-block; }
+}
+
+/* Mobile: accordion with smooth slide */
+@media(max-width:767px){
+  .child-links-wrapper { display:none; }
+  .child-links {
+    padding-left:1rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .child-links.show {
+    display:block;
+  }
+  .child-links .col { width:100%; padding-right:0; }
+  .parent-list a .fa-angle-right { display:none; }
+  .parent-list a .fa-angle-down { display:inline-block; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark bg-dark px-3">
+  <a class="navbar-brand fw-bold" href="#">MySite</a>
+  <button class="navbar-toggler border-0" type="button" id="menuToggle">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+</nav>
+
+<!-- Overlay Menu -->
+<div class="mega-overlay" id="megaMenu">
+  <div class="container-fluid py-3">
+    <div class="d-flex justify-content-between align-items-center border-bottom border-secondary mb-3">
+      <h4 class="fw-bold mb-0">Explore</h4>
+      <button class="close-btn" id="menuClose">&times;</button>
+    </div>
+
+    <div class="mega-row">
+      <!-- Parent Links -->
+      <div class="parent-list">
+        <a data-target="about" class="active">
+          About 
+          <i class="fa fa-angle-right"></i>
+          <i class="fa fa-angle-down"></i>
+        </a>
+        <div class="child-links mobile-child" id="about-mobile">
+          <a href="#">Mission & Values</a><a href="#">Leadership</a><a href="#">History</a><a href="#">News</a><a href="#">Accreditation</a>
+          <a href="#">Faculty</a><a href="#">Departments</a><a href="#">Libraries</a><a href="#">Research</a><a href="#">Centers</a>
+          <a href="#">Alumni</a><a href="#">Events</a><a href="#">Campus</a><a href="#">Media</a><a href="#">Careers</a>
+          <a href="#">Contact</a><a href="#">Giving</a><a href="#">Maps</a><a href="#">Policies</a><a href="#">FAQ</a>
+        </div>
+
+        <a data-target="academics">
+          Academics 
+          <i class="fa fa-angle-right"></i>
+          <i class="fa fa-angle-down"></i>
+        </a>
+        <div class="child-links mobile-child" id="academics-mobile">
+          <a href="#">Colleges & Schools</a><a href="#">Undergrad Programs</a><a href="#">Grad Programs</a><a href="#">Professional Studies</a><a href="#">Online Learning</a>
+          <a href="#">Departments</a><a href="#">Centers</a><a href="#">Libraries</a><a href="#">Research Labs</a><a href="#">Study Abroad</a>
+          <a href="#">Faculty Directory</a><a href="#">Academic Calendar</a><a href="#">Policies</a><a href="#">Resources</a><a href="#">Awards</a>
+          <a href="#">Courses</a><a href="#">Seminars</a><a href="#">Workshops</a><a href="#">Student Projects</a><a href="#">Publications</a>
+        </div>
+
+        <a data-target="admissions">
+          Admissions 
+          <i class="fa fa-angle-right"></i>
+          <i class="fa fa-angle-down"></i>
+        </a>
+        <div class="child-links mobile-child" id="admissions-mobile">
+          <a href="#">Undergraduate</a><a href="#">Graduate</a><a href="#">Financial Aid</a><a href="#">Visit Campus</a><a href="#">Policies</a>
+          <a href="#">Applications</a><a href="#">Deadlines</a><a href="#">Interviews</a><a href="#">FAQs</a><a href="#">Events</a>
+          <a href="#">Orientation</a><a href="#">Housing</a><a href="#">Support Services</a><a href="#">Contacts</a><a href="#">Maps</a>
+          <a href="#">Scholarships</a><a href="#">Tuition</a><a href="#">Programs</a><a href="#">Workshops</a><a href="#">Resources</a>
+        </div>
+
+        <a data-target="resources">
+          Resources 
+          <i class="fa fa-angle-right"></i>
+          <i class="fa fa-angle-down"></i>
+        </a>
+        <div class="child-links mobile-child" id="resources-mobile">
+          <a href="#">Students</a><a href="#">Faculty & Staff</a><a href="#">Alumni</a><a href="#">Parents</a><a href="#">Visitors</a>
+          <a href="#">Libraries</a><a href="#">IT Services</a><a href="#">Support</a><a href="#">Housing</a><a href="#">Counseling</a>
+          <a href="#">Career Services</a><a href="#">Events</a><a href="#">News</a><a href="#">Publications</a><a href="#">Maps</a>
+          <a href="#">Policies</a><a href="#">FAQs</a><a href="#">Contacts</a><a href="#">Emergency Info</a><a href="#">Sustainability</a>
+        </div>
+      </div>
+
+      <!-- Desktop 4-column panel -->
+      <div class="child-links-wrapper">
+        <!-- About -->
+        <div class="child-links w-100 collapse show" id="about">
+          <div class="row">
+            <div class="col"><a href="#">Mission & Values</a><a href="#">Leadership</a><a href="#">History</a><a href="#">News</a><a href="#">Accreditation</a></div>
+            <div class="col"><a href="#">Faculty</a><a href="#">Departments</a><a href="#">Libraries</a><a href="#">Research</a><a href="#">Centers</a></div>
+            <div class="col"><a href="#">Alumni</a><a href="#">Events</a><a href="#">Campus</a><a href="#">Media</a><a href="#">Careers</a></div>
+            <div class="col"><a href="#">Contact</a><a href="#">Giving</a><a href="#">Maps</a><a href="#">Policies</a><a href="#">FAQ</a></div>
+          </div>
+        </div>
+        <!-- Academics -->
+        <div class="child-links w-100 collapse" id="academics">
+          <div class="row">
+            <div class="col"><a href="#">Colleges & Schools</a><a href="#">Undergrad Programs</a><a href="#">Grad Programs</a><a href="#">Professional Studies</a><a href="#">Online Learning</a></div>
+            <div class="col"><a href="#">Departments</a><a href="#">Centers</a><a href="#">Libraries</a><a href="#">Research Labs</a><a href="#">Study Abroad</a></div>
+            <div class="col"><a href="#">Faculty Directory</a><a href="#">Academic Calendar</a><a href="#">Policies</a><a href="#">Resources</a><a href="#">Awards</a></div>
+            <div class="col"><a href="#">Courses</a><a href="#">Seminars</a><a href="#">Workshops</a><a href="#">Student Projects</a><a href="#">Publications</a></div>
+          </div>
+        </div>
+        <!-- Admissions -->
+        <div class="child-links w-100 collapse" id="admissions">
+          <div class="row">
+            <div class="col"><a href="#">Undergraduate</a><a href="#">Graduate</a><a href="#">Financial Aid</a><a href="#">Visit Campus</a><a href="#">Policies</a></div>
+            <div class="col"><a href="#">Applications</a><a href="#">Deadlines</a><a href="#">Interviews</a><a href="#">FAQs</a><a href="#">Events</a></div>
+            <div class="col"><a href="#">Orientation</a><a href="#">Housing</a><a href="#">Support Services</a><a href="#">Contacts</a><a href="#">Maps</a></div>
+            <div class="col"><a href="#">Scholarships</a><a href="#">Tuition</a><a href="#">Programs</a><a href="#">Workshops</a><a href="#">Resources</a></div>
+          </div>
+        </div>
+        <!-- Resources -->
+        <div class="child-links w-100 collapse" id="resources">
+          <div class="row">
+            <div class="col"><a href="#">Students</a><a href="#">Faculty & Staff</a><a href="#">Alumni</a><a href="#">Parents</a><a href="#">Visitors</a></div>
+            <div class="col"><a href="#">Libraries</a><a href="#">IT Services</a><a href="#">Support</a><a href="#">Housing</a><a href="#">Counseling</a></div>
+            <div class="col"><a href="#">Career Services</a><a href="#">Events</a><a href="#">News</a><a href="#">Publications</a><a href="#">Maps</a></div>
+            <div class="col"><a href="#">Policies</a><a href="#">FAQs</a><a href="#">Contacts</a><a href="#">Emergency Info</a><a href="#">Sustainability</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const menuToggle = document.getElementById('menuToggle');
+const menuClose = document.getElementById('menuClose');
+const megaMenu = document.getElementById('megaMenu');
+const parentLinks = document.querySelectorAll('.parent-list a[data-target]');
+const mobileChildLinks = document.querySelectorAll('.mobile-child');
+
+menuToggle.addEventListener('click', ()=> megaMenu.classList.add('show'));
+menuClose.addEventListener('click', ()=> megaMenu.classList.remove('show'));
+
+parentLinks.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = link.dataset.target;
+
+    if(window.innerWidth < 768){
+      // Mobile accordion
+      const child = document.getElementById(target+'-mobile');
+      const isShown = child.classList.contains('show');
+
+      // Collapse all
+      mobileChildLinks.forEach(c => {
+        c.style.maxHeight = null;
+        c.classList.remove('show');
+      });
+      parentLinks.forEach(l => l.classList.remove('mobile-active'));
+
+      if(!isShown){
+        child.classList.add('show');
+        link.classList.add('mobile-active');
+        child.style.maxHeight = child.scrollHeight + "px";
+      }
+    } else {
+      // Desktop: 4-column panel
+      const desktopPanels = document.querySelectorAll('.child-links-wrapper .child-links');
+      desktopPanels.forEach(c => c.classList.remove('show'));
+      parentLinks.forEach(l => l.classList.remove('active'));
+      document.getElementById(target).classList.add('show');
+      link.classList.add('active');
+    }
+  });
+});
+</script>
+</body>
+</html>
